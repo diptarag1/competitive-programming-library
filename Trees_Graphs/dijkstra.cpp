@@ -1,26 +1,17 @@
-loop(i,0,300000) d[i] = 1e15;
-    int n,m; cin >>n >> m;
-    vector<vector<pair<int,int>>> g(n);
-    loop(i,0,m) {
-        int x,y,z; cin >> x >> y >> z;
-        x--; y--;
-        g[x].pb({y,z});
-    }
-    set<pair<int,int>> q;
-    q.insert({0,0});
-    d[0] = 0;
- 
-    while(!q.empty()) {
-        int v = q.begin()->second; q.erase(q.begin());
-        for(pair<int,int> i : g[v]) {
-            int to = i.first;
-            int len = i.second;
- 
-            if(d[v] + len < d[to]) {
-                set<pair<int,int>>::iterator itr = q.find({d[to],to});
-                if(itr != q.end()) q.erase(itr);
-                d[to] = d[v] + len;
-                q.insert({d[to], to});
+void solve(vector<vector<pair<int,ll>>>& g, vector<ll>& d, vector<int>& p, int s) {
+    int n = g.size();
+    priority_queue<pair<ll,int> , vector<pair<ll,int>>, greater<pair<ll,int>>> dijkstra;
+    d[s] = 0; dijkstra.push({d[s],s});
+
+    while(!dijkstra.empty()) {
+        auto [l, node] = dijkstra.top(); dijkstra.pop();
+        if(l != d[node]) continue;
+        for(auto [to, len] : g[node]) {
+            if(d[node] + len < d[to]) {
+                d[to] = d[node] + len;
+                p[to] = node;
+                dijkstra.push({d[to],to});
             }
         }
     }
+}
