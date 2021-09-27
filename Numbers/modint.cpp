@@ -2,7 +2,7 @@ template <ll mod = MOD>
 struct modint {
     ll val;
     modint() : val(0) {}
-    modint(ll a) : val(a) {}
+    modint(ll a) : val(a) { val += MOD; if(val >= MOD) val -= MOD; }
     void operator = (modint a) { val = a.val; }
     bool operator == (modint a) { return val == a.val; } 
     bool operator != (modint a) { return val != a.val; }
