@@ -35,7 +35,7 @@ struct SegTree {
             } 
             lazy[node] = U(); 
     }
-    int query(int a, int b, int l, int r, int node) {
+    T query(int a, int b, int l, int r, int node) {
         lazyrelax(node,a,b); 
         if (a >= l && b <= r) return tree[node];
         else if (a > r || b < l || a > b) { return def; }
@@ -45,7 +45,7 @@ struct SegTree {
         lazyrelax(node,a,b);
         if (a >= l && b <= r) { 
             tree[node] = merge1(tree[node], val); 
-            if (node < n - 1) { lazy[2 * node + 1] = merge2(lazy[2*node+1],val); lazy[2 * node + 2] = merge2(2*node+2,val); } 
+            if (node < n - 1) { lazy[2 * node + 1] = merge2(lazy[2*node+1],val); lazy[2 * node + 2] = merge2(lazy[2*node+2],val); } 
             return; 
         }
         else if (a > r || b < l || a > b) { return; }
@@ -56,4 +56,3 @@ struct SegTree {
         }
     }
 };
-
