@@ -4,7 +4,7 @@ struct BIT {
     BIT(int n) { tree.resize(n); }
     BIT(vector<T>& v) {
         tree.resize(v.size());
-	loop(i,1,v.size()) update(i, v[i]);
+	    loop(i,1,v.size()) update(i, v[i]);
     }
     T query(int index) {
         T ans = 0;

@@ -1,21 +1,24 @@
 //Data node
 struct node{
-    int l,r; mint a;
-    node(int l=0, int r=0, mint aa=0) : l(l), r(r), a(aa) {}
+    int val;
+    node(int val=0) : val(val) {}
     friend node merge(const node& n1, const node& n2) {
-        return node(n1.l, n2.r, n1.a + n2.a);
+        return node(min(n1.val, n2.val));
     }
 };
 
 //Update node
 struct lnode {
-    mint mult, add;
-    lnode(mint aa=1, mint bb=0) : mult(aa), add(bb) {}
+    int add;
+    lnode(int aa=0) : add(aa) {}
     friend node merge1(const node& n1, const lnode& n2) {
-        return node( n1.l, n1.r, n2.mult*n1.a + n2.add*(n1.r - n1.l + 1) );
+        return node( n1.val + n2.add );
     }
     friend lnode merge2(const lnode& n1, const lnode& n2) {
-        return lnode( n1.mult*n2.mult, n1.add*n2.mult+n2.add ); 
+        return lnode( n1.add + n2.add ); 
+    }
+    bool operator != (const lnode& a) {
+        return add != a.add;
     }
 };
 
@@ -45,10 +48,10 @@ struct SegTree {
     void push(int l) {
         for(int s = lg; s > 0; --s) {
             int pos = l>>s;
-            if(lazy[pos].mult != 1 || lazy[pos].add != 0) { 
+            if(lazy[pos] != U()) { 
                 modify(pos<<1,lazy[pos]); 
                 modify(pos<<1|1,lazy[pos]); 
-                lazy[pos]= {1,0}; 
+                lazy[pos]= U(); 
             }
         }
     }
