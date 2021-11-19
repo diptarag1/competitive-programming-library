@@ -40,7 +40,8 @@ struct SegTree {
     //Builds all parents of pos from bottom
     inline void build(int pos) {
         for(pos+=N, pos>>=1; pos; pos>>=1) { 
-            tree[pos] = merge(tree[pos<<1], tree[pos<<1|1]); tree[pos] = merge1(tree[pos], lazy[pos]);
+            tree[pos] = merge(tree[pos<<1], tree[pos<<1|1]); 
+            if(lazy[pos] != U()) { tree[pos] = merge1(tree[pos], lazy[pos]); lazy[pos] = U(); }
         }
     }
 
@@ -81,3 +82,10 @@ struct SegTree {
         build(l0); build(r0 - 1);
     }
 };
+
+/* Make
+	int N = 1; while(N < n) N<<=1;
+	vector<node> tree(2*N+1); vector<lnode> lazy(2*N+1);
+	loop(i,0,n) tree[i+N] = a[i];
+	SegTree seg(N, tree, lazy);
+*/
