@@ -43,7 +43,6 @@ void fft(vector<mint> & a, bool invert) {
 void multiply(vector<mint> & a, vector<mint> const& b) {
     int n = 1; vector<mint> fb = b;
     while (n < a.size() + b.size()) n <<= 1;
-    int N = max(a.size(), b.size());
     a.resize(n);
     fb.resize(n);
 
@@ -52,6 +51,5 @@ void multiply(vector<mint> & a, vector<mint> const& b) {
     for (int i = 0; i < n; i++)
         a[i] *= fb[i];
     fft(a, true);
-
-    while(a.size() > N) a.pop_back();
+    
 }
