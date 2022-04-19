@@ -59,9 +59,9 @@ struct SegTree {
 
     //Queries [L,R)
     T query(int l, int r) {
+    	if(l>=r) return node();
         push(l+N); push(r-1+N);
         l += N; r += N;
-        if(l==r) return node();
         T res1 = tree[l++];
         if(l == r) return res1;
         T res2 = tree[--r];
