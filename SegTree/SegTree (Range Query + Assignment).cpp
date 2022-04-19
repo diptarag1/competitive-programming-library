@@ -1,21 +1,21 @@
 //Data node
 struct node{
-    int val;
-    node(int val=0) : val(val) {}
+    ll val;
+    node(ll val=-INF) : val(val) {}
     friend node merge(const node& n1, const node& n2) {
-        return node(min(n1.val, n2.val));
+        return node(max(n1.val, n2.val));
     }
 };
 
 //Update node
 struct lnode {
-    int add;
-    lnode(int aa=0) : add(aa) {}
+    ll add;
+    lnode(ll aa=-INF) : add(aa) {}
     friend node merge1(const node& n1, const lnode& n2) {
-        return node( n1.val + n2.add );
+        return node( max(n1.val,n2.add) );
     }
     friend lnode merge2(const lnode& n1, const lnode& n2) {
-        return lnode( n1.add + n2.add ); 
+        return lnode( max(n1.add, n2.add) ); 
     }
     bool operator != (const lnode& a) {
         return add != a.add;
@@ -61,6 +61,7 @@ struct SegTree {
     T query(int l, int r) {
         push(l+N); push(r-1+N);
         l += N; r += N;
+        if(l==r) return node();
         T res1 = tree[l++];
         if(l == r) return res1;
         T res2 = tree[--r];
@@ -89,3 +90,15 @@ struct SegTree {
 	loop(i,0,n) tree[i+N] = a[i];
 	SegTree seg(N, tree, lazy);
 */
+
+template<typename T>
+int compress(vector<T>& a, vector<T> d) {
+    a = d;
+    sort(d.begin(), d.end());
+    d.resize(unique(d.begin(), d.end()) - d.begin());
+    for (int i = 0; i < a.size(); ++i) {
+        a[i] = lower_bound(d.begin(), d.end(), a[i]) - d.begin();
+    } 
+    return d.size();
+}
+
