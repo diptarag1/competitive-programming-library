@@ -90,15 +90,3 @@ struct SegTree {
 	loop(i,0,n) tree[i+N] = a[i];
 	SegTree seg(N, tree, lazy);
 */
-
-template<typename T>
-int compress(vector<T>& a, vector<T> d) {
-    a = d;
-    sort(d.begin(), d.end());
-    d.resize(unique(d.begin(), d.end()) - d.begin());
-    for (int i = 0; i < a.size(); ++i) {
-        a[i] = lower_bound(d.begin(), d.end(), a[i]) - d.begin();
-    } 
-    return d.size();
-}
-
